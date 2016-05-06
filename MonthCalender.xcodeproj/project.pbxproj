@@ -14,6 +14,8 @@
 		635DC76D1CDB1B9F004C8381 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 635DC76B1CDB1B9F004C8381 /* LaunchScreen.storyboard */; };
 		635DC7781CDB1B9F004C8381 /* MonthCalenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635DC7771CDB1B9F004C8381 /* MonthCalenderTests.swift */; };
 		635DC7831CDB1B9F004C8381 /* MonthCalenderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635DC7821CDB1B9F004C8381 /* MonthCalenderUITests.swift */; };
+		635DC7911CDB2F46004C8381 /* SomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635DC7901CDB2F46004C8381 /* SomeCollectionViewCell.swift */; };
+		635DC7931CDB325E004C8381 /* SomeLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635DC7921CDB325E004C8381 /* SomeLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		635DC77E1CDB1B9F004C8381 /* MonthCalenderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MonthCalenderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		635DC7821CDB1B9F004C8381 /* MonthCalenderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthCalenderUITests.swift; sourceTree = "<group>"; };
 		635DC7841CDB1B9F004C8381 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		635DC7901CDB2F46004C8381 /* SomeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SomeCollectionViewCell.swift; sourceTree = "<group>"; };
+		635DC7921CDB325E004C8381 /* SomeLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SomeLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,8 @@
 			children = (
 				635DC7621CDB1B9F004C8381 /* AppDelegate.swift */,
 				635DC7641CDB1B9F004C8381 /* ViewController.swift */,
+				635DC7921CDB325E004C8381 /* SomeLayout.swift */,
+				635DC7901CDB2F46004C8381 /* SomeCollectionViewCell.swift */,
 				635DC7661CDB1B9F004C8381 /* Main.storyboard */,
 				635DC7691CDB1B9F004C8381 /* Assets.xcassets */,
 				635DC76B1CDB1B9F004C8381 /* LaunchScreen.storyboard */,
@@ -257,6 +263,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				635DC7651CDB1B9F004C8381 /* ViewController.swift in Sources */,
+				635DC7931CDB325E004C8381 /* SomeLayout.swift in Sources */,
+				635DC7911CDB2F46004C8381 /* SomeCollectionViewCell.swift in Sources */,
 				635DC7631CDB1B9F004C8381 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
