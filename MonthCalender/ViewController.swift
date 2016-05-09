@@ -15,6 +15,8 @@ class ViewController: UIViewController {
 	var selectedDates: [NSDate] = []
 	
 	var timeLabel: UILabel!
+	
+	var cc: DLCalendarView!
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -56,6 +58,28 @@ class ViewController: UIViewController {
 		view.addSubview(timeLabel)
 		timeLabel.center = view.center
 		timeLabel.center.y += 100
+		
+		// yoyo
+		let calendarSize = CGSize(width: UIScreen.mainScreen().bounds.width, height: 300)
+		cc = DLCalendarView(frame: CGRect(origin: CGPoint(x: 0, y: 400), size: calendarSize))
+		view.addSubview(cc)
+		print(cc.currentMaxMonths)
+		print(cc.currentMaxMonths)
+		
+		view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(t)))
+		
+		for _ in 1...cc.currentMaxMonths! {
+			cc.nextMonth()
+		}
+	}
+	
+	func t(g: UITapGestureRecognizer) {
+		let location = g.locationInView(view)
+		if location.x > 250 {
+			cc.nextMonth()
+		} else {
+			cc.previousMonth()
+		}
 	}
 	
 	var calendar: [[NSDate]] = []
@@ -143,12 +167,23 @@ class ViewController: UIViewController {
 		return NSCalendar.currentCalendar().component(NSCalendarUnit.Weekday, fromDate: date)
 	}
 	
+	func yearOfDate(date: NSDate) -> Int {
+		return NSCalendar.currentCalendar().components(NSCalendarUnit.Year, fromDate: date).year
+	}
+	
 	func monthOfDate(date: NSDate) -> Int {
 		return NSCalendar.currentCalendar().components(NSCalendarUnit.Month, fromDate: date).month
 	}
 	
 	func dayOfDate(date: NSDate) -> Int {
 		return NSCalendar.currentCalendar().components(NSCalendarUnit.Day, fromDate: date).day
+	}
+	
+	func stringOfDate(date: NSDate) -> String {
+		let year = yearOfDate(date)
+		let month = monthOfDate(date)
+		let day = dayOfDate(date)
+		return "\(year)-\(month)-\(day)"
 	}
 	
 	func dateByAddingYear(year: Int, toDate: NSDate) -> NSDate? {
@@ -189,6 +224,16 @@ class ViewController: UIViewController {
 		components.day = NSIntegerMax
 		components.day = day
 		return NSCalendar.currentCalendar().dateByAddingComponents(components, toDate: toDate, options: [])
+	}
+	
+	func nextPage(scrollView: UIScrollView) {
+		let nextPagePoint = CGPoint(x: scrollView.contentOffset.x + scrollView.frame.width, y: 0)
+		scrollView.setContentOffset(nextPagePoint, animated: true)
+	}
+	
+	func previousPage(scrollView: UIScrollView) {
+		let previousPagePoint = CGPoint(x: scrollView.contentOffset.x - scrollView.frame.width, y: 0)
+		scrollView.setContentOffset(previousPagePoint, animated: true)
 	}
 	
 	func configureCollectionView() {
@@ -256,11 +301,16 @@ extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate,
 
 extension ViewController : UIScrollViewDelegate {
 	func scrollViewDidScroll(scrollView: UIScrollView) {
+		
+	}
+	func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
 		let page = Int(scrollView.contentOffset.x / scrollView.frame.width)
 		let beginingDate = beginingOfMonthOfDate(calendar[page][21])
-		timeLabel.text = "\(beginingDate)"
+		timeLabel.text = stringOfDate(beginingDate!)
 		timeLabel.sizeToFit()
 		timeLabel.center = view.center
 		timeLabel.center.y += 100
+		
+		
 	}
 }

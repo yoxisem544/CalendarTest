@@ -52,7 +52,7 @@ class SomeCollectionViewCell: UICollectionViewCell {
 		}
 		
 		if today() {
-			print("yo")
+//			print("yo")
 			todayLayer()
 		} else {
 			todayShapeLayer?.removeFromSuperlayer()
@@ -84,7 +84,7 @@ class SomeCollectionViewCell: UICollectionViewCell {
 		if dayOfDate(date) == dayOfDate(now) {
 			if monthOfDate(date) == monthOfDate(now) {
 				if yearOfDate(date) == yearOfDate(now) {
-					print(date)
+//					print(date)
 					return true
 				}
 			}
