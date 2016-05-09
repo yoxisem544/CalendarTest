@@ -66,19 +66,22 @@ class ViewController: UIViewController {
 		print(cc.currentMaxMonths)
 		print(cc.currentMaxMonths)
 		
-		view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(t)))
+//		view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(t)))
 		
-		for _ in 1...cc.currentMaxMonths! {
-			cc.nextMonth()
-		}
+		cc.jumpToTaday()
+	}
+	
+	override func viewDidAppear(animated: Bool) {
+		super.viewDidAppear(animated)
+		cc.jumpToTaday()
 	}
 	
 	func t(g: UITapGestureRecognizer) {
 		let location = g.locationInView(view)
 		if location.x > 250 {
-			cc.nextMonth()
+//			cc.nextMonth()
 		} else {
-			cc.previousMonth()
+//			cc.previousMonth()
 		}
 	}
 	

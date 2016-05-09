@@ -17,6 +17,7 @@
 		635DC7911CDB2F46004C8381 /* SomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635DC7901CDB2F46004C8381 /* SomeCollectionViewCell.swift */; };
 		635DC7931CDB325E004C8381 /* SomeLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635DC7921CDB325E004C8381 /* SomeLayout.swift */; };
 		635DC7D01CE05A4D004C8381 /* DLCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635DC7CF1CE05A4D004C8381 /* DLCalendarView.swift */; };
+		635DC7D21CE0BAE0004C8381 /* DLCalendarViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635DC7D11CE0BAE0004C8381 /* DLCalendarViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		635DC7901CDB2F46004C8381 /* SomeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		635DC7921CDB325E004C8381 /* SomeLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SomeLayout.swift; sourceTree = "<group>"; };
 		635DC7CF1CE05A4D004C8381 /* DLCalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DLCalendarView.swift; sourceTree = "<group>"; };
+		635DC7D11CE0BAE0004C8381 /* DLCalendarViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DLCalendarViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 				635DC7CF1CE05A4D004C8381 /* DLCalendarView.swift */,
 				635DC7921CDB325E004C8381 /* SomeLayout.swift */,
 				635DC7901CDB2F46004C8381 /* SomeCollectionViewCell.swift */,
+				635DC7D11CE0BAE0004C8381 /* DLCalendarViewCell.swift */,
 				635DC7661CDB1B9F004C8381 /* Main.storyboard */,
 				635DC7691CDB1B9F004C8381 /* Assets.xcassets */,
 				635DC76B1CDB1B9F004C8381 /* LaunchScreen.storyboard */,
@@ -267,6 +270,7 @@
 			files = (
 				635DC7D01CE05A4D004C8381 /* DLCalendarView.swift in Sources */,
 				635DC7651CDB1B9F004C8381 /* ViewController.swift in Sources */,
+				635DC7D21CE0BAE0004C8381 /* DLCalendarViewCell.swift in Sources */,
 				635DC7931CDB325E004C8381 /* SomeLayout.swift in Sources */,
 				635DC7911CDB2F46004C8381 /* SomeCollectionViewCell.swift in Sources */,
 				635DC7631CDB1B9F004C8381 /* AppDelegate.swift in Sources */,

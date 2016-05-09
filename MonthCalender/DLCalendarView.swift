@@ -42,7 +42,7 @@ public class DLCalendarView: UIView {
 		calendarCollectionView.delegate = self
 		calendarCollectionView.dataSource = self
 		
-		calendarCollectionView.registerClass(SomeCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+		calendarCollectionView.registerClass(DLCalendarViewCell.self, forCellWithReuseIdentifier: "cell")
 		
 		addSubview(calendarCollectionView)
 		
@@ -76,6 +76,8 @@ public class DLCalendarView: UIView {
 		} else {
 			print("error creating calendar!!")
 		}
+		
+		calendarCollectionView.reloadData()
 	}
 	
 	func monthsBetween(date date: NSDate, andDate: NSDate) -> Int {
@@ -109,7 +111,7 @@ public class DLCalendarView: UIView {
 		// third, make this array to contain 42 days.
 		for daysToNextMonth in (datesOfMonth.count..<42) {
 			// -1 because weekday start from 1
-			if let date = dateByAddingDays(daysToNextMonth - startWeekday - 1, toDate: firstDayOfTheMonth) {
+			if let date = dateByAddingDays(daysToNextMonth - startWeekday + 1, toDate: firstDayOfTheMonth) {
 				datesOfMonth.append(date)
 			}
 		}
@@ -197,9 +199,13 @@ public class DLCalendarView: UIView {
 		if !selectedDates.contains(dateSelected) {
 			selectedDates.append(dateSelected)
 		} else {
-			if let index = selectedDates.indexOf(dateSelected) {
-				selectedDates.removeAtIndex(index)
-			}
+			removeDate(dateSelected)
+		}
+	}
+	
+	func removeDate(date: NSDate) {
+		if let index = selectedDates.indexOf(date) {
+			selectedDates.removeAtIndex(index)
 		}
 	}
 	
@@ -219,13 +225,41 @@ public class DLCalendarView: UIView {
 		return calendarCollectionView.frame.width
 	}
 	
+	var calendarContentOffsetX: CGFloat {
+		return calendarCollectionView.contentOffset.x
+	}
+	
 	// MARK: - Calendar mover
+	func jumpToTaday() {
+		let now = NSDate()
+		jumpToDate(now)
+	}
+	
 	func jumpToDate(date: NSDate) {
-		
+		guard let point = pointOfDate(date) else { return }
+		moveToPoint(point)
+	}
+	
+	func pointOfDate(date: NSDate) -> CGPoint? {
+		guard let section = sectionOfDate(date) else { return nil }
+		return CGPoint(x: calendarWidth * CGFloat(section), y: 0)
+	}
+	
+	func sectionOfDate(date: NSDate) -> Int? {
+		guard let startDate = startDate, let endDate = endDate else { return nil }
+		guard date.timeIntervalSinceDate(startDate) >= 0 else { return nil }
+		guard date.timeIntervalSinceDate(endDate) <= 0 else { return nil }
+		let months = monthsBetween(date: startDate, andDate: date)
+		guard months - 1 >= 0 else { return nil }
+		return months - 1
+	}
+	
+	func moveToPoint(point: CGPoint) {
+		calendarCollectionView.setContentOffset(point, animated: true)
 	}
 	
 	func nextMonth() {
-		let point = CGPoint(x: calendarCollectionView.contentOffset.x + calendarWidth, y: 0)
+		let point = CGPoint(x: calendarContentOffsetX + calendarWidth, y: 0)
 		if let startDate = startDate, let endDate = endDate {
 			if !(point.x > CGFloat(monthsBetween(date: startDate, andDate: endDate) - 1) * calendarWidth) {
 				calendarCollectionView.setContentOffset(point, animated: true)
@@ -234,7 +268,7 @@ public class DLCalendarView: UIView {
 	}
 	
 	func previousMonth() {
-		let point = CGPoint(x: calendarCollectionView.contentOffset.x - calendarWidth, y: 0)
+		let point = CGPoint(x: calendarContentOffsetX - calendarWidth, y: 0)
 		if !(point.x < 0) {
 			calendarCollectionView.setContentOffset(point, animated: true)
 		}
@@ -252,8 +286,8 @@ extension DLCalendarView : UICollectionViewDelegate, UICollectionViewDataSource 
 	}
 	
 	public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! SomeCollectionViewCell
-		cell.selectedDates = selectedDates
+		let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! DLCalendarViewCell
+		cell.calendar = self
 		cell.currentCalenderDate = currentDateOfIndexPath(indexPath)
 		cell.date = dateOfIndexPath(indexPath)
 		
@@ -261,9 +295,10 @@ extension DLCalendarView : UICollectionViewDelegate, UICollectionViewDataSource 
 	}
 	
 	public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-		let cell = collectionView.cellForItemAtIndexPath(indexPath) as! SomeCollectionViewCell
+		let cell = collectionView.cellForItemAtIndexPath(indexPath) as! DLCalendarViewCell
 		selectIndexPathOnCalendar(indexPath)
-		cell.selectedDates = selectedDates
+		cell.calendar = self
+		print(selectedDates)
 		cell.performSelect()
 	}
 }
