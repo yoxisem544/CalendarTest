@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -16,11 +17,150 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="MxD-WK-rZW">
+                                <rect key="frame" x="76" y="53" width="506" height="31"/>
+                                <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="redChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="8ey-fD-Sh3"/>
+                                </connections>
+                            </slider>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Rdy-n2-b4o">
+                                <rect key="frame" x="76" y="90" width="506" height="31"/>
+                                <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="greenChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="a5I-XN-Vmq"/>
+                                </connections>
+                            </slider>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="8Qf-9Q-9tb">
+                                <rect key="frame" x="76" y="127" width="506" height="31"/>
+                                <connections>
+                                    <action selector="blueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="Qq5-xS-vCP"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="改顏色勒" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PgB-mR-Abl">
+                                <rect key="frame" x="20" y="20" width="68" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Red" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="45I-G6-0SA">
+                                <rect key="frame" x="20" y="57" width="50" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="CHU-gq-wnX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Green" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yKK-Yf-jCN">
+                                <rect key="frame" x="20" y="94" width="50" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="nOA-Wh-tVJ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U4I-Rj-T9B">
+                                <rect key="frame" x="20" y="131" width="50" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="9cB-iC-6n5"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mbS-dH-h7l">
+                                <rect key="frame" x="20" y="165" width="75" height="30"/>
+                                <state key="normal" title="改今日顏色"/>
+                                <connections>
+                                    <action selector="changeTodayColorButtonClicked" destination="BYZ-38-t0r" eventType="touchUpInside" id="T8q-Pd-zTD"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kPc-Qs-LtG">
+                                <rect key="frame" x="20" y="203" width="90" height="30"/>
+                                <state key="normal" title="改本月字顏色"/>
+                                <connections>
+                                    <action selector="changeThisMonthTextColorButtonClicked" destination="BYZ-38-t0r" eventType="touchUpInside" id="hxq-gA-Wny"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EbX-Os-Wqt">
+                                <rect key="frame" x="20" y="241" width="105" height="30"/>
+                                <state key="normal" title="改非本月字顏色"/>
+                                <connections>
+                                    <action selector="changeOtherMonthTextColorButtonClicked" destination="BYZ-38-t0r" eventType="touchUpInside" id="nnO-ra-Fhf"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mwj-iK-JAL">
+                                <rect key="frame" x="133" y="165" width="447" height="144"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="anb-Df-aNW">
+                                <rect key="frame" x="20" y="317" width="90" height="30"/>
+                                <state key="normal" title="改選擇字顏色"/>
+                                <connections>
+                                    <action selector="changeSelectedDateTextColorButtonClicked" destination="BYZ-38-t0r" eventType="touchUpInside" id="RRb-za-Ugn"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vFD-5n-vpb">
+                                <rect key="frame" x="20" y="279" width="75" height="30"/>
+                                <state key="normal" title="改選擇顏色"/>
+                                <connections>
+                                    <action selector="changeSelectedColorButtonClicked" destination="BYZ-38-t0r" eventType="touchUpInside" id="6w2-3K-l9C"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="mwj-iK-JAL" firstAttribute="top" secondItem="8Qf-9Q-9tb" secondAttribute="bottom" constant="8" id="3DY-NL-J1V"/>
+                            <constraint firstItem="Rdy-n2-b4o" firstAttribute="leading" secondItem="yKK-Yf-jCN" secondAttribute="trailing" constant="8" id="4LW-xs-dKk"/>
+                            <constraint firstItem="mbS-dH-h7l" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="6BH-3o-UWZ"/>
+                            <constraint firstItem="MxD-WK-rZW" firstAttribute="leading" secondItem="45I-G6-0SA" secondAttribute="trailing" constant="8" id="7fZ-m9-0cm"/>
+                            <constraint firstItem="Rdy-n2-b4o" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="7tC-IQ-Gbc"/>
+                            <constraint firstItem="vFD-5n-vpb" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="GLB-7E-iik"/>
+                            <constraint firstItem="EbX-Os-Wqt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Gdr-XR-zAE"/>
+                            <constraint firstItem="45I-G6-0SA" firstAttribute="top" secondItem="PgB-mR-Abl" secondAttribute="bottom" constant="16" id="LaR-h6-HxL"/>
+                            <constraint firstItem="mbS-dH-h7l" firstAttribute="top" secondItem="8Qf-9Q-9tb" secondAttribute="bottom" constant="8" id="Lwd-iH-sb2"/>
+                            <constraint firstItem="mwj-iK-JAL" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="ObS-qr-22u"/>
+                            <constraint firstItem="MxD-WK-rZW" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="Otb-AI-Idl"/>
+                            <constraint firstItem="mwj-iK-JAL" firstAttribute="bottom" secondItem="vFD-5n-vpb" secondAttribute="bottom" id="R3N-9G-3OS"/>
+                            <constraint firstItem="yKK-Yf-jCN" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="RlH-vs-atV"/>
+                            <constraint firstItem="Rdy-n2-b4o" firstAttribute="centerY" secondItem="yKK-Yf-jCN" secondAttribute="centerY" id="Rnw-mN-eKm"/>
+                            <constraint firstItem="vFD-5n-vpb" firstAttribute="top" secondItem="EbX-Os-Wqt" secondAttribute="bottom" constant="8" id="SQF-Zb-HeY"/>
+                            <constraint firstItem="EbX-Os-Wqt" firstAttribute="top" secondItem="kPc-Qs-LtG" secondAttribute="bottom" constant="8" id="Sy8-40-cea"/>
+                            <constraint firstItem="kPc-Qs-LtG" firstAttribute="top" secondItem="mbS-dH-h7l" secondAttribute="bottom" constant="8" id="TKh-vd-AHd"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="anb-Df-aNW" secondAttribute="leading" id="X4p-O3-r5O"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="PgB-mR-Abl" secondAttribute="leading" id="bes-Nt-Ngi"/>
+                            <constraint firstItem="U4I-Rj-T9B" firstAttribute="top" secondItem="yKK-Yf-jCN" secondAttribute="bottom" constant="16" id="boj-B3-OSK"/>
+                            <constraint firstItem="MxD-WK-rZW" firstAttribute="centerY" secondItem="45I-G6-0SA" secondAttribute="centerY" id="dL2-3d-nMQ"/>
+                            <constraint firstItem="U4I-Rj-T9B" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="dWc-UO-6Xb"/>
+                            <constraint firstItem="8Qf-9Q-9tb" firstAttribute="centerY" secondItem="U4I-Rj-T9B" secondAttribute="centerY" id="dWd-bb-gt4"/>
+                            <constraint firstItem="yKK-Yf-jCN" firstAttribute="top" secondItem="45I-G6-0SA" secondAttribute="bottom" constant="16" id="gGl-ZE-bA5"/>
+                            <constraint firstItem="8Qf-9Q-9tb" firstAttribute="leading" secondItem="U4I-Rj-T9B" secondAttribute="trailing" constant="8" id="jPQ-lh-i2r"/>
+                            <constraint firstItem="kPc-Qs-LtG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="kFV-QU-OEL"/>
+                            <constraint firstItem="PgB-mR-Abl" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="rQF-rA-yZ5"/>
+                            <constraint firstItem="45I-G6-0SA" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="sIM-fz-AOa"/>
+                            <constraint firstItem="mwj-iK-JAL" firstAttribute="leading" secondItem="EbX-Os-Wqt" secondAttribute="trailing" constant="8" id="uOQ-SQ-f5m"/>
+                            <constraint firstItem="anb-Df-aNW" firstAttribute="top" secondItem="vFD-5n-vpb" secondAttribute="bottom" constant="8" id="wVo-C2-7oY"/>
+                            <constraint firstItem="8Qf-9Q-9tb" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="xiY-DE-w3o"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="bs" destination="8Qf-9Q-9tb" id="OrY-f1-NWW"/>
+                        <outlet property="changeOtherMonthTextColorButton" destination="EbX-Os-Wqt" id="Hif-EX-IZv"/>
+                        <outlet property="changeSelectedColorButton" destination="vFD-5n-vpb" id="VXL-OR-vGL"/>
+                        <outlet property="changeSelectedDateTextColorButton" destination="anb-Df-aNW" id="vk0-oh-QNb"/>
+                        <outlet property="changeThisMonthTextColorButton" destination="kPc-Qs-LtG" id="Tt0-gl-YPr"/>
+                        <outlet property="changeTodayColorButton" destination="mbS-dH-h7l" id="Ncf-pr-QV8"/>
+                        <outlet property="colorPlate" destination="mwj-iK-JAL" id="dBU-DD-spk"/>
+                        <outlet property="gs" destination="Rdy-n2-b4o" id="Kuo-um-KCg"/>
+                        <outlet property="rs" destination="MxD-WK-rZW" id="wU2-Om-0aB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="695" y="381"/>
         </scene>
     </scenes>
 </document>

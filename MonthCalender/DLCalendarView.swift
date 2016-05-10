@@ -8,23 +8,72 @@
 
 import UIKit
 
+public protocol DLCalendarViewDelegate: class {
+	func DLCalendarViewDidChangeToDate(date: NSDate?)
+	func DLCalendarViewDidSelectDate(date: NSDate)
+	func DLCalendarViewDidDeselectDate(date: NSDate)
+}
+
 public class DLCalendarView: UIView {
 	
-	var calendarCollectionView: UICollectionView
-	var calendarCollectionViewLayout: UICollectionViewFlowLayout
+	var calendarCollectionView: UICollectionView!
+	var calendarCollectionViewLayout: UICollectionViewFlowLayout!
 	
 	var selectedDates: [NSDate] = []
-	var calendar: [[NSDate]]
+	var calendar: [[NSDate]]!
 	var startDate: NSDate?
 	var endDate: NSDate?
+	
+	var headerView: UIView!
+	
+	weak var delegate: DLCalendarViewDelegate?
+	
+	var todayColor: UIColor! = UIColor.redColor()
+	var selectedColor: UIColor! = UIColor(red:0.448,  green:0.647,  blue:0.792, alpha:1)
+	var selectedDateTextColor: UIColor! = UIColor.whiteColor()
+	var thisMonthTextColor: UIColor! = UIColor.blackColor()
+	var otherMonthTextColor: UIColor! = UIColor.lightGrayColor()
+	
+	public convenience init(frameWithHeader frame: CGRect) {
+		
+		self.init()
+		self.frame = frame
+		
+		// configure header
+		let headerSize = CGSize(width: frame.width, height: 42)
+		
+		let container = UIView(frame: CGRect(origin: CGPointZero, size: headerSize))
+		let weekdays = ["日","一","二","三","四","五","六"]
+		for (index, weekday) : (Int, String) in weekdays.enumerate() {
+			let label = UILabel()
+			label.frame.size.height = headerSize.height
+			label.text = weekday
+			label.textAlignment = .Center
+			label.textColor = UIColor.grayColor()
+			label.sizeToFit()
+			label.center.y = container.bounds.midY
+			label.center.x = (container.bounds.width / CGFloat(weekdays.count)) * (CGFloat(index) + 0.5)
+			container.addSubview(label)
+		}
+		
+		addSubview(container)
+		
+		// configure calendar
+		configureCalendar(CGRect(
+			origin: CGPoint(x: 0, y: headerSize.height),
+			size: CGSize(width: frame.width, height: frame.height - headerSize.height)))
+	}
 
 	public override init(frame: CGRect) {
+		super.init(frame: frame)
+		configureCalendar(frame)
+	}
+	
+	func configureCalendar(frame: CGRect) {
 		
 		calendarCollectionViewLayout = UICollectionViewFlowLayout()
 		calendarCollectionView = UICollectionView(frame: frame, collectionViewLayout: calendarCollectionViewLayout)
 		calendar = []
-		
-		super.init(frame: frame)
 		
 		// layout
 		calendarCollectionViewLayout.sectionInset = UIEdgeInsetsZero
@@ -36,8 +85,7 @@ public class DLCalendarView: UIView {
 		calendarCollectionViewLayout.scrollDirection = .Horizontal
 		
 		// configure collection view
-		calendarCollectionView.frame.origin = CGPointZero
-		calendarCollectionView.backgroundColor = UIColor.whiteColor()
+		calendarCollectionView.backgroundColor = UIColor.clearColor()
 		calendarCollectionView.pagingEnabled = true
 		calendarCollectionView.delegate = self
 		calendarCollectionView.dataSource = self
@@ -87,7 +135,7 @@ public class DLCalendarView: UIView {
 	func configureMonthByDate(date: NSDate) -> [NSDate]? {
 		
 		// check if this date has a first date of the month
-		guard let firstDayOfTheMonth = beginingOfMonthOfDate(date) else { return nil }
+		guard let firstDayOfTheMonth = beginingDateOfMonth(date) else { return nil }
 		// initial cache
 		var datesOfMonth = [NSDate]()
 		// get weekday of the beginning date of this month
@@ -132,7 +180,7 @@ public class DLCalendarView: UIView {
 		return NSCalendar.currentCalendar().component(NSCalendarUnit.Weekday, fromDate: date)
 	}
 	
-	func beginingOfMonthOfDate(date: NSDate) -> NSDate? {
+	func beginingDateOfMonth(date: NSDate) -> NSDate? {
 		let component = NSCalendar.currentCalendar().components([.Year, .Month, .Day, .Hour], fromDate: date)
 		component.day = 1
 		return NSCalendar.currentCalendar().dateFromComponents(component)
@@ -194,10 +242,15 @@ public class DLCalendarView: UIView {
 		return calendar[indexPath.section][indexOnCalendar]
 	}
 	
+	func dateOfSection(section: Int) -> NSDate? {
+		return beginingDateOfMonth(calendar[section][21])
+	}
+	
 	func selectIndexPathOnCalendar(indexPath: NSIndexPath) {
 		let dateSelected = dateOfIndexPath(indexPath)
 		if !selectedDates.contains(dateSelected) {
 			selectedDates.append(dateSelected)
+			delegate?.DLCalendarViewDidSelectDate(dateSelected)
 		} else {
 			removeDate(dateSelected)
 		}
@@ -206,6 +259,7 @@ public class DLCalendarView: UIView {
 	func removeDate(date: NSDate) {
 		if let index = selectedDates.indexOf(date) {
 			selectedDates.removeAtIndex(index)
+			delegate?.DLCalendarViewDidDeselectDate(date)
 		}
 	}
 	
@@ -273,6 +327,10 @@ public class DLCalendarView: UIView {
 			calendarCollectionView.setContentOffset(point, animated: true)
 		}
 	}
+	
+	func reloadCalendarColor() {
+		calendarCollectionView.reloadData()
+	}
 }
 
 extension DLCalendarView : UICollectionViewDelegate, UICollectionViewDataSource {
@@ -298,14 +356,13 @@ extension DLCalendarView : UICollectionViewDelegate, UICollectionViewDataSource 
 		let cell = collectionView.cellForItemAtIndexPath(indexPath) as! DLCalendarViewCell
 		selectIndexPathOnCalendar(indexPath)
 		cell.calendar = self
-		print(selectedDates)
 		cell.performSelect()
 	}
 }
 extension DLCalendarView : UIScrollViewDelegate {
 	public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
 		let page = Int(scrollView.contentOffset.x / scrollView.frame.width)
-		let beginingDate = beginingOfMonthOfDate(calendar[page][21])
-		print(stringOfDate(beginingDate!))
+		let date = dateOfSection(page)
+		delegate?.DLCalendarViewDidChangeToDate(date)
 	}
 }

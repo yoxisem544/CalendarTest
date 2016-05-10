@@ -14,7 +14,7 @@ public class DLCalendarViewCell: UICollectionViewCell {
 	private var didSelectedShapeLayer: CAShapeLayer?
 	private var todayShapeLayer: CAShapeLayer?
 	
-	var calendar: DLCalendarView!
+	var calendar: DLCalendarView?
 	var currentCalenderDate: NSDate?
 	var date: NSDate! {
 		didSet {
@@ -37,7 +37,7 @@ public class DLCalendarViewCell: UICollectionViewCell {
 		didSelectedShapeLayer = CAShapeLayer()
 		didSelectedShapeLayer?.frame = CGRect(x: (bounds.width - diameter) / 2, y: (bounds.height - diameter) / 2, width: diameter, height: diameter)
 		didSelectedShapeLayer?.path = UIBezierPath(ovalInRect: didSelectedShapeLayer!.bounds).CGPath
-		didSelectedShapeLayer!.fillColor = UIColor(red:0.448,  green:0.647,  blue:0.792, alpha:1).CGColor
+		didSelectedShapeLayer?.fillColor = calendar?.selectedColor.CGColor
 		
 		didSelectedShapeLayer?.borderColor = UIColor.clearColor().CGColor
 		didSelectedShapeLayer?.borderWidth = 1.0
@@ -52,7 +52,7 @@ public class DLCalendarViewCell: UICollectionViewCell {
 	}
 	
 	func updateTitleText() {
-		titleLabel.text = "\(calendar.dayOfDate(date))"
+		titleLabel.text = calendar != nil ? "\(calendar!.dayOfDate(date))" : " "
 		titleLabel.sizeToFit()
 		titleLabel.center = CGPoint(x: bounds.midX, y: bounds.midY)
 		// change color of title
@@ -65,22 +65,29 @@ public class DLCalendarViewCell: UICollectionViewCell {
 			todayShapeLayer = CAShapeLayer()
 			todayShapeLayer?.frame = CGRect(x: (bounds.width - diameter) / 2, y: (bounds.height - diameter) / 2, width: diameter, height: diameter)
 			todayShapeLayer?.path = UIBezierPath(ovalInRect: todayShapeLayer!.bounds).CGPath
-			todayShapeLayer!.fillColor = UIColor(red:1,  green:0.355,  blue:0.235, alpha:1).CGColor
+			todayShapeLayer?.fillColor = calendar?.todayColor.CGColor
 			
 			todayShapeLayer?.borderColor = UIColor.clearColor().CGColor
 			todayShapeLayer?.borderWidth = 1.0
 			
 			layer.insertSublayer(todayShapeLayer!, below: titleLabel.layer)
 			
-			titleLabel.textColor = UIColor.whiteColor()
+			titleLabel.textColor = calendar?.selectedDateTextColor
 			todayShapeLayer?.hidden = false
+			
+			if containsToday() {
+				performOnselectingToday()
+			}
 		} else {
 			todayShapeLayer?.hidden = true
 		}
 	}
 	
 	func updateDidSelectLayer() {
-		if calendar.selectedDates.contains(date) {
+		
+		didSelectedShapeLayer?.fillColor = calendar?.selectedColor.CGColor
+		
+		if let calendar = calendar where calendar.selectedDates.contains(date) {
 			didSelectedShapeLayer?.hidden = false
 		} else {
 			didSelectedShapeLayer?.hidden = true
@@ -89,7 +96,7 @@ public class DLCalendarViewCell: UICollectionViewCell {
 	
 	func performSelect() {
 		
-		if calendar.selectedDates.contains(date) {
+		if let calendar = calendar where calendar.selectedDates.contains(date) {
 			if isToday() {
 				performOnselectingToday()
 			} else {
@@ -220,23 +227,43 @@ public class DLCalendarViewCell: UICollectionViewCell {
 	}
 	
 	func changeTitleColor() {
-		if isToday() {
-			titleLabel.textColor = UIColor.whiteColor()
-		} else if calendar.selectedDates.contains(date) {
-			titleLabel.textColor = UIColor.whiteColor()
-		} else if sameMonth() {
-			titleLabel.textColor = UIColor.blackColor()
-		} else {
-			titleLabel.textColor = UIColor.lightGrayColor()
+		if let calendar = calendar {
+			if isToday() {
+				titleLabel.textColor = calendar.selectedDateTextColor
+			} else if calendar.selectedDates.contains(date) {
+				titleLabel.textColor = calendar.selectedDateTextColor
+			} else if sameMonth() {
+				titleLabel.textColor = calendar.thisMonthTextColor
+			} else {
+				titleLabel.textColor = calendar.otherMonthTextColor
+			}
 		}
 	}
 	
 	func isToday() -> Bool {
 		let now = NSDate()
-		if calendar.dayOfDate(date) == calendar.dayOfDate(now) {
-			if calendar.monthOfDate(date) == calendar.monthOfDate(now) {
-				if calendar.yearOfDate(date) == calendar.yearOfDate(now) {
-					return true
+		if let calendar = calendar {
+			if calendar.dayOfDate(date) == calendar.dayOfDate(now) {
+				if calendar.monthOfDate(date) == calendar.monthOfDate(now) {
+					if calendar.yearOfDate(date) == calendar.yearOfDate(now) {
+						return true
+					}
+				}
+			}
+		}
+		return false
+	}
+	
+	func containsToday() -> Bool {
+		let now = NSDate()
+		if let calendar = calendar {
+			for _date in calendar.selectedDates {
+				if calendar.dayOfDate(_date) == calendar.dayOfDate(now) {
+					if calendar.monthOfDate(_date) == calendar.monthOfDate(now) {
+						if calendar.yearOfDate(_date) == calendar.yearOfDate(now) {
+							return true
+						}
+					}
 				}
 			}
 		}
@@ -244,7 +271,7 @@ public class DLCalendarViewCell: UICollectionViewCell {
 	}
 	
 	func sameMonth() -> Bool {
-		if let currentCalenderDate = currentCalenderDate where calendar.monthOfDate(date) == calendar.monthOfDate(currentCalenderDate) {
+		if let currentCalenderDate = currentCalenderDate where calendar?.monthOfDate(date) == calendar?.monthOfDate(currentCalenderDate) {
 			return true
 		}
 		return false

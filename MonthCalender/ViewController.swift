@@ -10,124 +10,78 @@ import UIKit
 
 class ViewController: UIViewController {
 	
-	var collectionView: UICollectionView!
-	var currentDate: NSDate = NSDate()
-	var selectedDates: [NSDate] = []
-	
-	var timeLabel: UILabel!
-	
 	var cc: DLCalendarView!
+	
+	@IBOutlet weak var changeTodayColorButton: UIButton!
+	@IBOutlet weak var changeSelectedColorButton: UIButton!
+	@IBOutlet weak var changeThisMonthTextColorButton: UIButton!
+	@IBOutlet weak var changeOtherMonthTextColorButton: UIButton!
+	@IBOutlet weak var changeSelectedDateTextColorButton: UIButton!
+	@IBOutlet weak var colorPlate: UIView!
+	@IBOutlet weak var rs: UISlider!
+	@IBOutlet weak var gs: UISlider!
+	@IBOutlet weak var bs: UISlider!
+	
+	@IBAction func changeTodayColorButtonClicked() {
+		changeTodayColorButton.backgroundColor = colorPlate.backgroundColor
+		cc.todayColor = colorPlate.backgroundColor
+		cc.reloadCalendarColor()
+	}
+	
+	@IBAction func changeSelectedColorButtonClicked() {
+		changeSelectedColorButton.backgroundColor = colorPlate.backgroundColor
+		cc.selectedColor = colorPlate.backgroundColor
+		cc.reloadCalendarColor()
+	}
+	
+	@IBAction func changeThisMonthTextColorButtonClicked() {
+		changeThisMonthTextColorButton.backgroundColor = colorPlate.backgroundColor
+		cc.thisMonthTextColor = colorPlate.backgroundColor
+		cc.reloadCalendarColor()
+	}
+	
+	@IBAction func changeOtherMonthTextColorButtonClicked() {
+		changeOtherMonthTextColorButton.backgroundColor = colorPlate.backgroundColor
+		cc.otherMonthTextColor = colorPlate.backgroundColor
+		cc.reloadCalendarColor()
+	}
+	
+	@IBAction func changeSelectedDateTextColorButtonClicked() {
+		changeSelectedDateTextColorButton.backgroundColor = colorPlate.backgroundColor
+		cc.selectedDateTextColor = colorPlate.backgroundColor
+		cc.reloadCalendarColor()
+	}
 
+	@IBAction func redChanged(sender: AnyObject) {
+		colorPlate.backgroundColor = UIColor(red: CGFloat(rs.value), green: CGFloat(gs.value), blue: CGFloat(bs.value), alpha: 1.0)
+	}
+	
+	@IBAction func greenChanged(sender: AnyObject) {
+		colorPlate.backgroundColor = UIColor(red: CGFloat(rs.value), green: CGFloat(gs.value), blue: CGFloat(bs.value), alpha: 1.0)
+	}
+	
+	@IBAction func blueChanged(sender: AnyObject) {
+		colorPlate.backgroundColor = UIColor(red: CGFloat(rs.value), green: CGFloat(gs.value), blue: CGFloat(bs.value), alpha: 1.0)
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
-		
-		configureCollectionView()
-		
-		let now = NSDate()
-		var com = NSCalendar.currentCalendar().components([NSCalendarUnit.Year,NSCalendarUnit.Month,NSCalendarUnit.Day], fromDate: now)
-		com.day = 31
-		let nextday = NSCalendar.currentCalendar().dateFromComponents(com)!
-		print(daysOfDate(nextday))
-		print(weekdayOfDate(nextday))
-		
-		print(nextday)
-		print("=====")
-		let nextM = dateByAddingMonth(1, toDate: nextday)
-		print(nextM)
-		let a = dateByAddingDay(2, toDate: nextday)
-		print(a)
-		
-		configureCalendar()
-		calendar.forEach { (dates: [NSDate]) in
-//			print("\n", "===", "\n")
-//			print(dates)
-//			print(dates.count)
-		}
-		
-		
-		collectionView.reloadData()
-		
-		timeLabel = UILabel()
-		timeLabel.frame.size.height = 30
-		timeLabel.font = UIFont.systemFontOfSize(28)
-		timeLabel.textAlignment = .Center
-		timeLabel.text = "yoyoyo"
-		timeLabel.sizeToFit()
-		
-		view.addSubview(timeLabel)
-		timeLabel.center = view.center
-		timeLabel.center.y += 100
-		
+
 		// yoyo
 		let calendarSize = CGSize(width: UIScreen.mainScreen().bounds.width, height: 300)
-		cc = DLCalendarView(frame: CGRect(origin: CGPoint(x: 0, y: 400), size: calendarSize))
+		cc = DLCalendarView(frameWithHeader: CGRect(origin: CGPoint(x: 0, y: 400), size: calendarSize))
+//		cc = DLCalendarView(frame: CGRect(origin: CGPoint(x: 0, y: 400), size: calendarSize))
 		view.addSubview(cc)
 		print(cc.currentMaxMonths)
 		print(cc.currentMaxMonths)
 		
-//		view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(t)))
-		
-		cc.jumpToTaday()
+		cc.delegate = self
 	}
 	
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
 		cc.jumpToTaday()
-	}
-	
-	func t(g: UITapGestureRecognizer) {
-		let location = g.locationInView(view)
-		if location.x > 250 {
-//			cc.nextMonth()
-		} else {
-//			cc.previousMonth()
-		}
-	}
-	
-	var calendar: [[NSDate]] = []
-	
-	func configureCalendar() {
-		let now = NSDate()
-		for month in 0..<12*100 {
-			if let date = dateByAddingMonth(month, toDate: now), let _month = configureMonth(date) {
-				calendar.append(_month)
-			}
-		}
-		let after = NSDate()
-		print("time of creating 12 * 100 month")
-		print(after.timeIntervalSinceDate(now))
-	}
-	
-	func configureMonth(date: NSDate) -> [NSDate]? {
-		var datesOfMonth = [NSDate]()
-		guard let firstDayOfTheMonth = beginingOfMonthOfDate(date) else { return nil }
-//		print(firstDayOfTheMonth)
-		let startWeekDay = weekdayOfDate(firstDayOfTheMonth)
-		// this month
-		for day in 0..<daysOfDate(firstDayOfTheMonth) {
-			if let _date = dateByAddingDay(day, toDate: firstDayOfTheMonth) {
-				datesOfMonth.append(_date)
-			}
-		}
-//		print(datesOfMonth)
-		// previous month
-//		print((1..<startWeekDay).reverse())
-		for pd in (1..<startWeekDay).reverse().reverse() {
-			if let _date = dateByAddingDay(-pd, toDate: firstDayOfTheMonth) {
-				datesOfMonth.insert(_date, atIndex: 0)
-			}
-		}
-//		print(datesOfMonth)
-		// next month
-		for nextD in (datesOfMonth.count+1...42) {
-			if let _date = dateByAddingDay(nextD-startWeekDay, toDate: firstDayOfTheMonth) {
-				datesOfMonth.append(_date)
-			}
-		}
-//		print(datesOfMonth)
-		
-		return datesOfMonth
 	}
 
 	// start 1970 1
@@ -228,92 +182,19 @@ class ViewController: UIViewController {
 		components.day = day
 		return NSCalendar.currentCalendar().dateByAddingComponents(components, toDate: toDate, options: [])
 	}
-	
-	func nextPage(scrollView: UIScrollView) {
-		let nextPagePoint = CGPoint(x: scrollView.contentOffset.x + scrollView.frame.width, y: 0)
-		scrollView.setContentOffset(nextPagePoint, animated: true)
-	}
-	
-	func previousPage(scrollView: UIScrollView) {
-		let previousPagePoint = CGPoint(x: scrollView.contentOffset.x - scrollView.frame.width, y: 0)
-		scrollView.setContentOffset(previousPagePoint, animated: true)
-	}
-	
-	func configureCollectionView() {
-		
-		let calendarSize = CGSize(width: UIScreen.mainScreen().bounds.width, height: 300)
-		
-		let layout = UICollectionViewFlowLayout()
-		layout.sectionInset = UIEdgeInsetsZero
-		layout.minimumInteritemSpacing = 0
-		layout.minimumLineSpacing = 0
-		layout.itemSize = CGSize(width: calendarSize.width/7, height: calendarSize.height/6)
-		layout.scrollDirection = .Horizontal
-		
-		collectionView = UICollectionView(frame: CGRect(origin: CGPoint(x: 0, y:  0), size: calendarSize), collectionViewLayout: layout)
-		collectionView.backgroundColor = UIColor.clearColor()
-		
-		view.addSubview(collectionView)
-		
-		collectionView.pagingEnabled = true
-		
-		collectionView.delegate = self
-		collectionView.dataSource = self
-		
-		collectionView.registerClass(SomeCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-	}
-
 
 }
 
-extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-	func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-		return calendar.count
-	}
-	
-	func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return calendar[section].count
-	}
-	
-	func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! SomeCollectionViewCell
-		let ya = 7*(indexPath.item%6) + indexPath.item/6
-//		print(ya)\
-		cell.selectedDates = selectedDates
-		cell.currentCalenderDate = calendar[indexPath.section][21]
-		cell.date = calendar[indexPath.section][ya]
-		
-		return cell
-	}
-	
-	// MARK: - Delegate
-	func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-		let cell = collectionView.cellForItemAtIndexPath(indexPath) as! SomeCollectionViewCell
-		let ya = 7*(indexPath.item%6) + indexPath.item/6
-		if !selectedDates.contains(calendar[indexPath.section][ya]) {
-			selectedDates.append(calendar[indexPath.section][ya])
-		} else {
-			if let index = selectedDates.indexOf(calendar[indexPath.section][ya]) {
-				selectedDates.removeAtIndex(index)
-			}
-		}
-		cell.selectedDates = selectedDates
-		cell.performSelect()
-	}
-}
-
-extension ViewController : UIScrollViewDelegate {
-	func scrollViewDidScroll(scrollView: UIScrollView) {
+extension UIViewController : DLCalendarViewDelegate {
+	public func DLCalendarViewDidSelectDate(date: NSDate) {
 		
 	}
-	func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-		let page = Int(scrollView.contentOffset.x / scrollView.frame.width)
-		let beginingDate = beginingOfMonthOfDate(calendar[page][21])
-		timeLabel.text = stringOfDate(beginingDate!)
-		timeLabel.sizeToFit()
-		timeLabel.center = view.center
-		timeLabel.center.y += 100
+	
+	public func DLCalendarViewDidDeselectDate(date: NSDate) {
 		
+	}
+	
+	public func DLCalendarViewDidChangeToDate(date: NSDate?) {
 		
 	}
 }
