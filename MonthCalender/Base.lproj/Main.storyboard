@@ -103,6 +103,12 @@
                                     <action selector="changeSelectedDateTextColorButtonClicked" destination="BYZ-38-t0r" eventType="touchUpInside" id="RRb-za-Ugn"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J4l-EK-2HN">
+                                <rect key="frame" x="20" y="355" width="560" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vFD-5n-vpb">
                                 <rect key="frame" x="20" y="279" width="75" height="30"/>
                                 <state key="normal" title="改選擇顏色"/>
@@ -114,6 +120,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="mwj-iK-JAL" firstAttribute="top" secondItem="8Qf-9Q-9tb" secondAttribute="bottom" constant="8" id="3DY-NL-J1V"/>
+                            <constraint firstItem="J4l-EK-2HN" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="46C-xf-ltF"/>
                             <constraint firstItem="Rdy-n2-b4o" firstAttribute="leading" secondItem="yKK-Yf-jCN" secondAttribute="trailing" constant="8" id="4LW-xs-dKk"/>
                             <constraint firstItem="mbS-dH-h7l" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="6BH-3o-UWZ"/>
                             <constraint firstItem="MxD-WK-rZW" firstAttribute="leading" secondItem="45I-G6-0SA" secondAttribute="trailing" constant="8" id="7fZ-m9-0cm"/>
@@ -130,7 +137,9 @@
                             <constraint firstItem="vFD-5n-vpb" firstAttribute="top" secondItem="EbX-Os-Wqt" secondAttribute="bottom" constant="8" id="SQF-Zb-HeY"/>
                             <constraint firstItem="EbX-Os-Wqt" firstAttribute="top" secondItem="kPc-Qs-LtG" secondAttribute="bottom" constant="8" id="Sy8-40-cea"/>
                             <constraint firstItem="kPc-Qs-LtG" firstAttribute="top" secondItem="mbS-dH-h7l" secondAttribute="bottom" constant="8" id="TKh-vd-AHd"/>
+                            <constraint firstItem="J4l-EK-2HN" firstAttribute="top" secondItem="anb-Df-aNW" secondAttribute="bottom" constant="8" id="Wdr-ew-ead"/>
                             <constraint firstAttribute="leadingMargin" secondItem="anb-Df-aNW" secondAttribute="leading" id="X4p-O3-r5O"/>
+                            <constraint firstItem="J4l-EK-2HN" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="Yik-Dn-RM6"/>
                             <constraint firstAttribute="leadingMargin" secondItem="PgB-mR-Abl" secondAttribute="leading" id="bes-Nt-Ngi"/>
                             <constraint firstItem="U4I-Rj-T9B" firstAttribute="top" secondItem="yKK-Yf-jCN" secondAttribute="bottom" constant="16" id="boj-B3-OSK"/>
                             <constraint firstItem="MxD-WK-rZW" firstAttribute="centerY" secondItem="45I-G6-0SA" secondAttribute="centerY" id="dL2-3d-nMQ"/>
@@ -154,6 +163,7 @@
                         <outlet property="changeThisMonthTextColorButton" destination="kPc-Qs-LtG" id="Tt0-gl-YPr"/>
                         <outlet property="changeTodayColorButton" destination="mbS-dH-h7l" id="Ncf-pr-QV8"/>
                         <outlet property="colorPlate" destination="mwj-iK-JAL" id="dBU-DD-spk"/>
+                        <outlet property="dateLabel" destination="J4l-EK-2HN" id="cbF-3y-6dV"/>
                         <outlet property="gs" destination="Rdy-n2-b4o" id="Kuo-um-KCg"/>
                         <outlet property="rs" destination="MxD-WK-rZW" id="wU2-Om-0aB"/>
                     </connections>

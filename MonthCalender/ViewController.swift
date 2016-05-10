@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+public class ViewController: UIViewController {
 	
 	var cc: DLCalendarView!
 	
@@ -64,7 +64,9 @@ class ViewController: UIViewController {
 		colorPlate.backgroundColor = UIColor(red: CGFloat(rs.value), green: CGFloat(gs.value), blue: CGFloat(bs.value), alpha: 1.0)
 	}
 	
-	override func viewDidLoad() {
+	@IBOutlet weak var dateLabel: UILabel!
+	
+	override public func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
 
@@ -79,9 +81,10 @@ class ViewController: UIViewController {
 		cc.delegate = self
 	}
 	
-	override func viewDidAppear(animated: Bool) {
+	override public func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
 		cc.jumpToTaday()
+		dateLabel.text = stringOfDate(cc.currentDate)
 	}
 
 	// start 1970 1
@@ -136,11 +139,14 @@ class ViewController: UIViewController {
 		return NSCalendar.currentCalendar().components(NSCalendarUnit.Day, fromDate: date).day
 	}
 	
-	func stringOfDate(date: NSDate) -> String {
-		let year = yearOfDate(date)
-		let month = monthOfDate(date)
-		let day = dayOfDate(date)
-		return "\(year)-\(month)-\(day)"
+	func stringOfDate(date: NSDate?) -> String {
+		if let date = date {
+			let year = yearOfDate(date)
+			let month = monthOfDate(date)
+			let day = dayOfDate(date)
+			return "\(year)-\(month)-\(day)"
+		}
+		return ""
 	}
 	
 	func dateByAddingYear(year: Int, toDate: NSDate) -> NSDate? {
@@ -185,16 +191,16 @@ class ViewController: UIViewController {
 
 }
 
-extension UIViewController : DLCalendarViewDelegate {
+extension ViewController : DLCalendarViewDelegate {
 	public func DLCalendarViewDidSelectDate(date: NSDate) {
-		
+		dateLabel.text = stringOfDate(date) + " Selected"
 	}
 	
 	public func DLCalendarViewDidDeselectDate(date: NSDate) {
-		
+		dateLabel.text = stringOfDate(date) + " Deselected"
 	}
 	
 	public func DLCalendarViewDidChangeToDate(date: NSDate?) {
-		
+		dateLabel.text = stringOfDate(date)
 	}
 }

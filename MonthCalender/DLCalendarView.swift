@@ -283,6 +283,11 @@ public class DLCalendarView: UIView {
 		return calendarCollectionView.contentOffset.x
 	}
 	
+	var currentDate: NSDate? {
+		let section = Int(calendarContentOffsetX / calendarWidth)
+		return dateOfSection(section)
+	}
+	
 	// MARK: - Calendar mover
 	func jumpToTaday() {
 		let now = NSDate()
@@ -297,6 +302,10 @@ public class DLCalendarView: UIView {
 	func pointOfDate(date: NSDate) -> CGPoint? {
 		guard let section = sectionOfDate(date) else { return nil }
 		return CGPoint(x: calendarWidth * CGFloat(section), y: 0)
+	}
+	
+	func dateFromOffset(offset: CGFloat) {
+		
 	}
 	
 	func sectionOfDate(date: NSDate) -> Int? {
