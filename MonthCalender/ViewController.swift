@@ -71,7 +71,7 @@ public class ViewController: UIViewController {
 		// Do any additional setup after loading the view, typically from a nib.
 
 		// yoyo
-		let calendarSize = CGSize(width: UIScreen.mainScreen().bounds.width, height: 300)
+		let calendarSize = CGSize(width: UIScreen.mainScreen().bounds.width, height: 250)
 		cc = DLCalendarView(frameWithHeader: CGRect(origin: CGPoint(x: 0, y: 400), size: calendarSize))
 //		cc = DLCalendarView(frame: CGRect(origin: CGPoint(x: 0, y: 400), size: calendarSize))
 		view.addSubview(cc)
@@ -202,5 +202,6 @@ extension ViewController : DLCalendarViewDelegate {
 	
 	public func DLCalendarViewDidChangeToDate(date: NSDate?) {
 		dateLabel.text = stringOfDate(date)
+		print("yo")
 	}
 }

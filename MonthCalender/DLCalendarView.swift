@@ -43,7 +43,8 @@ public class DLCalendarView: UIView {
 		let headerSize = CGSize(width: frame.width, height: 42)
 		
 		let container = UIView(frame: CGRect(origin: CGPointZero, size: headerSize))
-		let weekdays = ["日","一","二","三","四","五","六"]
+//		let weekdays = ["日","一","二","三","四","五","六"]
+		let weekdays = ["一","二","三","四","五","六","日"]
 		for (index, weekday) : (Int, String) in weekdays.enumerate() {
 			let label = UILabel()
 			label.frame.size.height = headerSize.height
@@ -140,6 +141,7 @@ public class DLCalendarView: UIView {
 		var datesOfMonth = [NSDate]()
 		// get weekday of the beginning date of this month
 		let startWeekday = weekdayOfDate(firstDayOfTheMonth)
+
 		// first, create dates of this month.
 		for dayOffsetFromFirstDay in 0..<daysOfDate(firstDayOfTheMonth) {
 			// 0 is first day of this month.
@@ -151,16 +153,19 @@ public class DLCalendarView: UIView {
 		}
 		// second, show previous month's dates
 		// ex. if 4/1 is fri, so you are going to show 5/31 on preivous thu, etc.
-		for daysFromPreviousMonth in (1..<startWeekday) {
+		let rangeFromSunToSat = (1..<startWeekday)
+		let rangeFromMonToSun = (1..<((startWeekday - 1) == 0 ? 7 : (startWeekday - 1)))
+		for daysFromPreviousMonth in rangeFromMonToSun {
 			if let date = dateBySubtractingDays(daysFromPreviousMonth, toDate: firstDayOfTheMonth) {
 				datesOfMonth.insert(date, atIndex: 0)
 			}
 		}
 		// third, make this array to contain 42 days.
-		for daysToNextMonth in (datesOfMonth.count..<42) {
-			// -1 because weekday start from 1
-			if let date = dateByAddingDays(daysToNextMonth - startWeekday + 1, toDate: firstDayOfTheMonth) {
+		guard var endDate = endDateOfMonth(firstDayOfTheMonth) else { return nil }
+		while datesOfMonth.count != 42 {
+			if let date = tomorrowOfDate(endDate) {
 				datesOfMonth.append(date)
+				endDate = date
 			}
 		}
 		
@@ -183,6 +188,19 @@ public class DLCalendarView: UIView {
 	func beginingDateOfMonth(date: NSDate) -> NSDate? {
 		let component = NSCalendar.currentCalendar().components([.Year, .Month, .Day, .Hour], fromDate: date)
 		component.day = 1
+		return NSCalendar.currentCalendar().dateFromComponents(component)
+	}
+	
+	func endDateOfMonth(date: NSDate) -> NSDate? {
+		let component = NSCalendar.currentCalendar().components([.Year, .Month, .Day, .Hour], fromDate: date)
+		component.month += 1
+		component.day = 0
+		return NSCalendar.currentCalendar().dateFromComponents(component)
+	}
+	
+	func tomorrowOfDate(date: NSDate) -> NSDate? {
+		let component = NSCalendar.currentCalendar().components([.Year, .Month, .Day, .Hour], fromDate: date)
+		component.day += 1
 		return NSCalendar.currentCalendar().dateFromComponents(component)
 	}
 	
