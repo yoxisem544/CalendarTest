@@ -257,6 +257,9 @@ public class DLCalendarView: UIView {
 	
 	func dateOfIndexPath(indexPath: NSIndexPath) -> NSDate {
 		let indexOnCalendar = 7 * (indexPath.item % 6) + indexPath.item / 6
+//		print(indexOnCalendar)
+//		print(calendar[indexPath.section])
+//		print("幹", dayOfDate(calendar[indexPath.section][indexOnCalendar]))
 		return calendar[indexPath.section][indexOnCalendar]
 	}
 	
@@ -268,6 +271,7 @@ public class DLCalendarView: UIView {
 		let dateSelected = dateOfIndexPath(indexPath)
 		if !selectedDates.contains(dateSelected) {
 			selectedDates.append(dateSelected)
+//			print("select", dateSelected)
 			delegate?.DLCalendarViewDidSelectDate(dateSelected)
 		} else {
 			removeDate(dateSelected)

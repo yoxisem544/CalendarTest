@@ -194,10 +194,12 @@ public class ViewController: UIViewController {
 extension ViewController : DLCalendarViewDelegate {
 	public func DLCalendarViewDidSelectDate(date: NSDate) {
 		dateLabel.text = stringOfDate(date) + " Selected"
+		print(cc.selectedDates)
 	}
 	
 	public func DLCalendarViewDidDeselectDate(date: NSDate) {
 		dateLabel.text = stringOfDate(date) + " Deselected"
+		print(cc.selectedDates)
 	}
 	
 	public func DLCalendarViewDidChangeToDate(date: NSDate?) {
